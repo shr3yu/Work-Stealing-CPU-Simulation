@@ -40,8 +40,8 @@ The grow-at-full / shrink-at-quarter policy leaves a gap between the two thresho
 
 ## Build & Run
 ```
-g++ -std=c++17 -O2 CPU_driver.cpp CPU.cpp Core.cpp -o cpu
-./cpu < test.txt
+make          # builds ./cpu
+make test     # runs the sample command script in test.txt
 ```
 
 ### Commands

@@ -13,7 +13,7 @@ int main(){
     while (std::cin >> cmd){
         if(cmd == "ON"){
             std::cin >> n;
-            if (processing_core != nullptr){
+            if (processing_core != nullptr || n <= 0){
                 std::cout << "failure" << std::endl;
             } else {
                 processing_core = new CPU (n);
@@ -21,29 +21,35 @@ int main(){
             }
         } else if (cmd == "SPAWN"){
             std::cin >> task;
-            processing_core->spawn(task);
+            if (processing_core == nullptr) std::cout << "failure" << std::endl; // CPU not powered on
+            else processing_core->spawn(task);
             // processing_core->printCPU();
         } else if(cmd == "RUN"){
             std::cin >> core;
-            processing_core->run(core);
+            if (processing_core == nullptr) std::cout << "failure" << std::endl; // CPU not powered on
+            else processing_core->run(core);
             // processing_core->printCPU();
            
         } else if (cmd == "SLEEP"){
             std::cin >> core;
-            processing_core->sleep(core);
+            if (processing_core == nullptr) std::cout << "failure" << std::endl; // CPU not powered on
+            else processing_core->sleep(core);
             // processing_core->printCPU();
           
         } else if (cmd == "SHUTDOWN"){
-           processing_core->shutdown();
+           if (processing_core == nullptr) std::cout << "failure" << std::endl;
+           else processing_core->shutdown();
         //    processing_core->printCPU();
         }else if (cmd == "SIZE"){
             std::cin >> core;
-            processing_core->size(core);
+            if (processing_core == nullptr) std::cout << "failure" << std::endl; // CPU not powered on
+            else processing_core->size(core);
             // processing_core->printCPU();
           
         }else if (cmd == "CAPACITY"){
             std::cin >> core;
-            processing_core->capacity(core);
+            if (processing_core == nullptr) std::cout << "failure" << std::endl; // CPU not powered on
+            else processing_core->capacity(core);
             // processing_core->printCPU();
         }else {
            break;

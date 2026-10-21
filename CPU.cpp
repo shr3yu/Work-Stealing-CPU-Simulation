@@ -54,7 +54,7 @@ void CPU::steal(int core){
     //assign work from the core with the largest amount of work to do
     // pop off back and then insert
     int biggest_core = most_work(core);
-    if (cores[biggest_core].size != 0){ // check if the core has tasks before stealing
+    if (biggest_core != -1 && cores[biggest_core].size != 0){ // -1 means there is no other core to steal from
         int stolen_task = cores[biggest_core].pop_back();
         cores[core].insert(stolen_task);
     }
@@ -69,6 +69,12 @@ void CPU::sleep(int core){
     // if there is no tasks to assign
     if (cores[core].size == 0){
         std::cout << "core " << core << " has no tasks to assign" << std::endl;
+        return;
+    }
+
+    // a single-core CPU has nowhere to migrate tasks to
+    if (num_cores == 1){
+        std::cout << "failure" << std::endl;
         return;
     }
 
@@ -125,6 +131,8 @@ void CPU::capacity(int core){
 
 //helper functions
 int CPU::least_work(int core){
+    if (num_cores == 1 && core == 0) return -1; // the only core is excluded
+
     int core_id = (core == 0) ? 1 : 0;
     int lowest_size = cores[core_id].size;
 
@@ -142,6 +150,8 @@ int CPU::least_work(int core){
 }
 
 int CPU::most_work(int core){
+    if (num_cores == 1 && core == 0) return -1; // the only core is excluded
+
     int core_id = (core == 0) ? 1 : 0;
     int biggest_size = cores[core_id].size;
 
